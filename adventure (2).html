@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookie Clicker</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; background-color: #ffe4c4; }
+        #game-container { border: 2px solid #a0522d; padding: 20px; display: inline-block; background-color: #fff; border-radius: 10px; }
+        #cookie-button { font-size: 3em; background-color: #a0522d; color: white; border-radius: 50%; padding: 20px; border: none; cursor: pointer; }
+        #score-display { font-size: 2em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>Cookie Clicker</h1>
+        <p>Click the cookie to increase your score!</p>
+        <button id="cookie-button">🍪</button>
+        <div id="score-display">Score: 0</div>
+    </div>
+
+    <script>
+        let score = 0;
+        const cookieButton = document.getElementById('cookie-button');
+        const scoreDisplay = document.getElementById('score-display');
+
+        cookieButton.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+        });
+    </script>
+
+</body>
+</html>

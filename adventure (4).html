@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #333; }
+        #word-display { font-size: 2em; letter-spacing: 5px; margin-bottom: 20px; }
+        #guesses { margin-bottom: 20px; }
+        #message { margin-top: 20px; font-weight: bold; }
+        #input-area { margin-top: 20px; }
+        #guess-input { font-size: 1.2em; padding: 5px; width: 50px; text-align: center; }
+        #guess-button { font-size: 1.2em; padding: 5px 10px; cursor: pointer; }
+        #reset-button { margin-top: 20px; padding: 10px 20px; font-size: 1em; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Hangman</h1>
+    <p>Guess the hidden word!</p>
+    <div id="word-display"></div>
+    <div id="guesses">Incorrect guesses: 0 / 6</div>
+    <div id="input-area">
+        <input type="text" id="guess-input" maxlength="1">
+        <button id="guess-button">Guess</button>
+    </div>
+    <div id="message"></div>
+    <button id="reset-button">New Game</button>
+
+    <script>
+        const words = ['javascript', 'hangman', 'programming', 'developer', 'computer'];
+        let secretWord = '';
+        let guessedLetters = [];
+        let incorrectGuesses = 0;
+        const maxIncorrectGuesses = 6;
+
+        const wordDisplay = document.getElementById('word-display');
+        const guessesDisplay = document.getElementById('guesses');
+        const guessInput = document.getElementById('guess-input');
+        const guessButton = document.getElementById('guess-button');
+        const messageDisplay = document.getElementById('message');
+        const resetButton = document.getElementById('reset-button');
+
+        function startGame() {
+            secretWord = words[Math.floor(Math.random() * words.length)];
+            guessedLetters = [];
+            incorrectGuesses = 0;
+            messageDisplay.textContent = '';
+            guessInput.value = '';
+            guessInput.disabled = false;
+            guessButton.disabled = false;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            let displayWord = '';
+            let wordGuessed = true;
+            for (const letter of secretWord) {
+                if (guessedLetters.includes(letter)) {
+                    displayWord += letter;
+                } else {
+                    displayWord += '_';
+                    wordGuessed = false;
+                }
+            }
+            wordDisplay.textContent = displayWord;
+            guessesDisplay.textContent = `Incorrect guesses: ${incorrectGuesses} / ${maxIncorrectGuesses}`;
+
+            if (wordGuessed) {
+                messageDisplay.textContent = 'You win! Congratulations!';
+                endGame();
+            } else if (incorrectGuesses >= maxIncorrectGuesses) {
+                messageDisplay.textContent = `Game over! The word was "${secretWord}".`;
+                endGame();
+            }
+        }
+
+        function handleGuess() {
+            const guess = guessInput.value.toLowerCase();
+            guessInput.value = '';
+
+            if (guessedLetters.includes(guess)) {
+                messageDisplay.textContent = `You already guessed the letter "${guess}".`;
+                return;
+            }
+
+            guessedLetters.push(guess);
+
+            if (secretWord.includes(guess)) {
+                messageDisplay.textContent = 'Good guess!';
+            } else {
+                incorrectGuesses++;
+                messageDisplay.textContent = 'Wrong guess!';
+            }
+            updateDisplay();
+        }
+
+        function endGame() {
+            guessInput.disabled = true;
+            guessButton.disabled = true;
+        }
+
+        guessButton.addEventListener('click', handleGuess);
+        guessInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleGuess();
+            }
+        });
+        resetButton.addEventListener('click', startGame);
+
+        // Start the game for the first time
+        startGame();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dice Rolling Game</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        #game-container { border: 2px solid #333; padding: 20px; display: inline-block; }
+        #roll-button { font-size: 1.5em; padding: 10px 20px; cursor: pointer; }
+        #result { font-size: 1.2em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>Roll the Dice!</h1>
+        <p>Click the button to roll a virtual die and see what number you get.</p>
+        <button id="roll-button">Roll the Dice</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Get references to the HTML elements we need to interact with
+        const rollButton = document.getElementById('roll-button');
+        const resultDiv = document.getElementById('result');
+
+        // Function to roll a die
+        function rollDice() {
+            // Generate a random number between 1 and 6 (inclusive)
+            const roll = Math.floor(Math.random() * 6) + 1;
+            
+            // Display the result on the webpage
+            resultDiv.textContent = `You rolled a ${roll}!`;
+        }
+
+        // Add a click event listener to the button
+        rollButton.addEventListener('click', rollDice);
+    </script>
+
+</body>
+</html>

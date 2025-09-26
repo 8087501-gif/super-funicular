@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess the Color</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; background-color: #f0f0f0; }
+        #game-container { border: 2px solid #ccc; padding: 20px; display: inline-block; background-color: #fff; border-radius: 10px; }
+        #color-guess-box { width: 100px; height: 100px; margin: 20px auto; border: 2px solid #333; }
+        #color-input { font-size: 1em; padding: 5px; }
+        #guess-button { font-size: 1em; padding: 5px 10px; cursor: pointer; }
+        #message { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>Guess the Color!</h1>
+        <p>I am thinking of a color (red, green, or blue). Can you guess it?</p>
+        <div id="color-guess-box"></div>
+        <input type="text" id="color-input" placeholder="Type your guess...">
+        <button id="guess-button">Guess</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const colors = ['red', 'green', 'blue'];
+        const secretColor = colors[Math.floor(Math.random() * colors.length)];
+        let attempts = 0;
+
+        const guessButton = document.getElementById('guess-button');
+        const colorInput = document.getElementById('color-input');
+        const messagePara = document.getElementById('message');
+        const colorGuessBox = document.getElementById('color-guess-box');
+
+        guessButton.addEventListener('click', () => {
+            const playerGuess = colorInput.value.toLowerCase();
+            attempts++;
+
+            if (playerGuess === secretColor) {
+                messagePara.textContent = `Correct! It took you ${attempts} attempts.`;
+                colorGuessBox.style.backgroundColor = secretColor;
+                guessButton.disabled = true;
+            } else if (colors.includes(playerGuess)) {
+                messagePara.textContent = `Sorry, that's not the color. Try again!`;
+            } else {
+                messagePara.textContent = `That is not a valid color. Please choose red, green, or blue.`;
+            }
+
+            colorInput.value = ''; // Clear the input field
+        });
+    </script>
+
+</body>
+</html>
